@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "France Culture podcast downloader",
+  "version": "0.1",
+
+  "description": "Ajoute une bordure rouge pleine sur l'ensemble des pages web mozilla.org.",
+
+  "icons": {
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.franceculture.fr/*"],
+      "js": ["france-culture-downloader.js"]
+    }
+  ]
+
+}

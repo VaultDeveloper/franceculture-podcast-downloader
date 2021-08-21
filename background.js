@@ -25,7 +25,7 @@ let onDownloadRequestPort;
 
 /** Callback qui disperse les écoute sur les différents ports en fonction de l'attribut `name` passé en paramètre du port.
  * @param p Port à écouter.
-*/
+ */
 function connected(p) {
 	console.log(`${logId} port connexion received '${p.name}'.`);
 
@@ -34,13 +34,18 @@ function connected(p) {
 	else if (p.name === "franceculture-download-request") {
 		onDownloadRequestPort = p;
 		onDownloadRequestPort.onMessage.addListener(downloadFile);
-	}
-	else console.error(`${logId} Port name not recognized '${p.name}'.`);
+	} else console.error(`${logId} Port name not recognized '${p.name}'.`);
 }
 
-/** Lance le téléchargement du fichier dont l'url est passé en direction du dossier de téléchargement par défaut. */
+/** Lance le téléchargement du fichier dont l'url est passé en direction du dossier de téléchargement par défaut.
+ * @param {DownloadRequestData}
+ */
 function downloadFile(data) {
-	const downloading = browser.downloads.download({ url: data.url });
+	console.log(`${logId} Download request received.`);
+	const downloading = browser.downloads.download({
+		url: data.url,
+		filename: data.filename,
+	});
 	downloading.then(
 		() => {
 			console.log(`${logId} Download started`);
@@ -52,3 +57,9 @@ function downloadFile(data) {
 }
 
 browser.runtime.onConnect.addListener(connected);
+
+/** Classe passé dans le port `onDownloadRequestPort` contenant les informations sur le fichier à télécharger. */
+class DownloadRequestData {
+	url;
+	filename;
+}

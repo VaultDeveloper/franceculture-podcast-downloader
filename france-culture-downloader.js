@@ -5,22 +5,28 @@ document.body.style.border = "5px solid orange";
 console.log(logId, "Plugin loaded.");
 
 /** Retourne la balise HTML `<button>` à ajouter au `DOM`.
+ * @param {Element} Balise `<div>` HTML qui encapsule le bouton d'écoute et de téléchargement.
  * @returns Balise HTML `<button>` à ajouter au `DOM`.
-*/
-function buildDownloadButton() {
-		/** Balise HTML `button` pour télécharger le podcast. */
-		const downloadButton = document.createElement("button");
-		// Ajoute la CSS et le texte.
-		downloadButton.className =
-			"replay-button paused aod playable blue textualized playing";
-		downloadButton.style = "font-size: inherit;";
-		downloadButton.innerHTML = "Télécharger";
+ */
+function buildDownloadButton(domButtons) {
+	/** Balise HTML `button` pour télécharger le podcast. */
+	const downloadButton = document.createElement("button");
+	// Ajoute la CSS et le texte.
+	downloadButton.className =
+		"replay-button paused aod playable blue textualized playing";
+	downloadButton.style = "font-size: inherit;";
+	downloadButton.innerHTML = "Télécharger";
 
-		downloadButton.addEventListener("click", () => {
-			console.log(logId, "Download button clicked.");
-			downloadRequestPort.postMessage({ url: getFileUrl(domButtons) });
-		});
-		return downloadButton;
+	downloadButton.addEventListener("click", () => {
+		console.log(logId, "Download button clicked.");
+		const data = {
+			url: getFileUrl(domButtons),
+			filename: getFileName(),
+		};
+		console.log(`${logId} Download request to background.js with data ${JSON.stringify(data)}.`)
+		downloadRequestPort.postMessage(data);
+	});
+	return downloadButton;
 }
 
 /** Ajoute le bouton de téléchargement sur la page si elle contient un podcast téléchargeable. */
@@ -32,19 +38,40 @@ function addDownloadButton() {
 		console.log(logId, "buttons detected");
 		document.body.style.border = "5px solid green";
 
-		domButtons.appendChild(buildDownloadButton());
+		domButtons.appendChild(buildDownloadButton(domButtons));
 	} else {
 		console.log(logId, "buttons not detected, download unavailable.");
 		document.body.style.border = "5px solid orange";
 	}
 }
 
-/** Retourne l'adresse du fichier pour le div qui contient tous les boutons. */
+/** Retourne l'adresse du fichier pour le div qui contient tous les boutons.
+ * @returns {string}
+ */
 function getFileUrl(buttons) {
 	const fileUrl = buttons.firstChild.getAttribute("data-url");
 	// Ne fonctionne que si c'est le premier button et que l'attribut pour stocker l'url du fichier est `data-url`.
 	console.log(`${logId} File location: ${fileUrl}.`);
 	return fileUrl;
+}
+
+/** Retourne le titre de la podcast. */
+function getPodcastTitle() {
+	return document.querySelector("h1.title").innerHTML.trim();
+}
+
+/** Retourne le nom du fichier à télécharger. */
+function getFileName() {
+	// https://stackoverflow.com/a/42210346/6595016
+	return `${removeIllegalCharacters(getPodcastTitle())}.mp3`;
+}
+
+/** Supprime les caractères illégaux pour l'enregistrement des fichiers.
+ * @param {string} text
+ * @returns {string} Texte sans caractères illégaux.
+ */
+function removeIllegalCharacters(text) {
+	return text.replace(/[/\\?%*:|"<>]/g, "");
 }
 
 addDownloadButton();

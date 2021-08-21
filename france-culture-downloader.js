@@ -20,6 +20,7 @@ function buildDownloadButton() {
 			console.log(logId, "Download button clicked.");
 			downloadRequestPort.postMessage({ url: getFileUrl(domButtons) });
 		});
+		return downloadButton;
 }
 
 /** Ajoute le bouton de téléchargement sur la page si elle contient un podcast téléchargeable. */

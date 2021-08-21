@@ -1,6 +1,15 @@
 # Install
 ## Firefox
-`about:debugging#/runtime/this-firefox`
+- `about:debugging#/runtime/this-firefox`
+- "Charger un module complémentaire temporaire".
+- Sélectionner n'importe quel fichier de ce dossier.
+
+# Debug
+## Firefox
+- `about:debugging#/runtime/this-firefox`
+- "Charger un module complémentaire temporaire".
+- Sélectionner n'importe quel fichier de ce dossier.
+- "Examiner".
 
 # Todo
 - Renommer le fichier créé avec le titre de l'émission.

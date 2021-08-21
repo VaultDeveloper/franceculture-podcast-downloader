@@ -8,11 +8,23 @@
   "icons": {
   },
 
+	"background": {
+		"scripts": ["background.js"]
+	},
+
   "content_scripts": [
     {
       "matches": ["*://*.franceculture.fr/*"],
       "js": ["france-culture-downloader.js"]
     }
-  ]
+  ],
+
+	"permissions": [
+    "downloads",
+    "downloads.open",
+		"webRequest",
+		"webNavigation",
+		"webRequestBlocking"
+	]
 
 }

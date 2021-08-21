@@ -1,4 +1,5 @@
-const logId = "FCPD: ";
+/** Identifiant de log pour le background-script. */
+const logId = "FCPD.B: ";
 
 const franceCulterFilter = {
 	url: [{ hostContains: "franceculture.fr" }],

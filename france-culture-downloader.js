@@ -1,4 +1,5 @@
-const logId = "FCPD: ";
+/** Identifiant de log pour le content-script. */
+const logId = "FCPD.C: ";
 document.body.style.border = "5px solid orange";
 
 console.log(logId, "Plugin loaded.");
@@ -20,6 +21,7 @@ function addDownloadButton() {
 		downloadButton.addEventListener("click", () => {
 			// Todo lancer un téléchargement.
 			console.log(logId, "Download button clicked.");
+			// TODO
 			getFileUrl(domButtons);
 		});
 	} else {

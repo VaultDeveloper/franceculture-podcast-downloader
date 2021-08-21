@@ -10,17 +10,8 @@ if (domButtons) {
 	document.body.style.border = "5px solid green";
 
 	const downloadButton = document.createElement("button");
-	downloadButton.classList.add(
-		[
-			"replay-button",
-			"paused",
-			"aod",
-			"playable",
-			"blue",
-			"textualized",
-			"playing",
-		]
-	);
+	downloadButton.className = "replay-button paused aod playable blue textualized playing";
+	downloadButton.style = "font-size: inherit;"
 	downloadButton.innerHTML = "Télécharger";
 	domButtons.appendChild(downloadButton);
 

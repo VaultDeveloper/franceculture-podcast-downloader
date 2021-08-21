@@ -19,10 +19,8 @@ function addDownloadButton() {
 		domButtons.appendChild(downloadButton);
 
 		downloadButton.addEventListener("click", () => {
-			// Todo lancer un téléchargement.
 			console.log(logId, "Download button clicked.");
-			// TODO
-			getFileUrl(domButtons);
+			downloadRequestPort.postMessage({ url: getFileUrl(domButtons) });
 		});
 	} else {
 		console.log(logId, "buttons not detected");
@@ -40,8 +38,14 @@ function getFileUrl(buttons) {
 
 addDownloadButton();
 
-var onUrlChangedPort = browser.runtime.connect({
+// TODO Mettre un id en premier paramètre pour déployer l'extension: https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/Content_scripts
+const onUrlChangedPort = browser.runtime.connect("", {
 	name: "franceculture-on-navigation-changed",
+});
+
+// TODO Mettre un id en premier paramètre pour déployer l'extension: https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions/Content_scripts
+const downloadRequestPort = browser.runtime.connect("", {
+	name: "franceculture-download-request",
 });
 
 onUrlChangedPort.onMessage.addListener(function (m) {

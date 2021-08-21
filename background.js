@@ -18,11 +18,37 @@ browser.webNavigation.onHistoryStateUpdated.addListener(
 );
 
 /** Port pour communiquer avec les scripts de contenu. */
-var onNavigationChangedPort;
+let onNavigationChangedPort;
 
+/** Port pour communiquer les demandes de téléchargement. */
+let onDownloadRequestPort;
+
+/** Callback qui disperse les écoute sur les différents ports en fonction de l'attribut `name` passé en paramètre du port.
+ * @param p Port à écouter.
+*/
 function connected(p) {
-	console.log(logId, "onNavigationChanged port open.");
-	onNavigationChangedPort = p;
+	console.log(`${logId} port connexion received '${p.name}'.`);
+
+	if (p.name === "franceculture-on-navigation-changed")
+		onNavigationChangedPort = p;
+	else if (p.name === "franceculture-download-request") {
+		onDownloadRequestPort = p;
+		onDownloadRequestPort.onMessage.addListener(downloadFile);
+	}
+	else console.error(`${logId} Port name not recognized '${p.name}'.`);
+}
+
+/** Lance le téléchargement du fichier dont l'url est passé en direction du dossier de téléchargement par défaut. */
+function downloadFile(data) {
+	const downloading = browser.downloads.download({ url: data.url });
+	downloading.then(
+		() => {
+			console.log(`${logId} Download started`);
+		},
+		(error) => {
+			console.error(`${logId} Download failed: ${error}`);
+		}
+	);
 }
 
 browser.runtime.onConnect.addListener(connected);

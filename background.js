@@ -1,21 +1,27 @@
 const logId = "FCPD: ";
 
-console.log(logId, "background.js loaded");
-
-function logOnHistoryStateUpdated(details) {
-	console.log(logId, "onHistoryStateUpdated: " + details.url);
-	console.log(logId, "Transition type: " + details.transitionType);
-	console.log(logId, "Transition qualifiers: " + details.transitionQualifiers);
-}
-
 const franceCulterFilter = {
-  url:
-  [
-    {hostContains: "franceculture.fr"}
-  ]
+	url: [{ hostContains: "franceculture.fr" }],
 };
 
+console.log(logId, "background.js loaded");
+
+function onHistoryStateUpdated(details) {
+	console.log(logId, "historyStateUpdated " + details.url);
+	onNavigationChangedPort.postMessage({});
+}
+
 browser.webNavigation.onHistoryStateUpdated.addListener(
-	logOnHistoryStateUpdated,
+	onHistoryStateUpdated,
 	franceCulterFilter
 );
+
+/** Port pour communiquer avec les scripts de contenu. */
+var onNavigationChangedPort;
+
+function connected(p) {
+	console.log(logId, "onNavigationChanged port open.");
+	onNavigationChangedPort = p;
+}
+
+browser.runtime.onConnect.addListener(connected);

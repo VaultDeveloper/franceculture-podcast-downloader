@@ -140,6 +140,8 @@ browser.downloads.onChanged.addListener(onDownloadChanged);
 
 /** Classe passé dans le port `onDownloadRequestPort` contenant les informations sur le fichier à télécharger. */
 class DownloadRequestData {
-	url;
-	filename;
+	constructor(url, filename) {
+    this.url = url;
+    this.filename = filename;
+  }
 }

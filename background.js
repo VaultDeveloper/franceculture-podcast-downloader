@@ -26,7 +26,7 @@ let onDownloadRequestPort;
 /** Callback qui disperse les écoute sur les différents ports en fonction de l'attribut `name` passé en paramètre du port.
  * @param p Port à écouter.
  */
-function connected(p) {
+function onPortConnected(p) {
 	console.log(`${logId} port connexion received '${p.name}'.`);
 
 	if (p.name === "franceculture-on-navigation-changed")
@@ -48,7 +48,7 @@ function downloadFile(data) {
 	});
 	downloading.then(
 		() => {
-			console.log(`${logId} Download started`);
+			console.log(`${logId} Download started.`);
 		},
 		(error) => {
 			console.error(`${logId} Download failed: ${error}`);
@@ -56,7 +56,8 @@ function downloadFile(data) {
 	);
 }
 
-browser.runtime.onConnect.addListener(connected);
+// Ajoute les écoutes sur des événements.
+browser.runtime.onConnect.addListener(onPortConnected);
 
 /** Classe passé dans le port `onDownloadRequestPort` contenant les informations sur le fichier à télécharger. */
 class DownloadRequestData {

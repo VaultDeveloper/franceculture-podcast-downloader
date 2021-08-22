@@ -38,7 +38,7 @@ function connected(p) {
 }
 
 /** Lance le téléchargement du fichier dont l'url est passé en direction du dossier de téléchargement par défaut.
- * @param {DownloadRequestData}
+ * @param {DownloadRequestData} data
  */
 function downloadFile(data) {
 	console.log(`${logId} Download request received.`);

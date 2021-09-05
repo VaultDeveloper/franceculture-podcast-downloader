@@ -1,7 +1,10 @@
 # France Culture Podcast Downloader
-Ajoute pour télécharger les podcast audio de France Culture. Les fichiers téléchargés vont dans le dossier "Téléchargements" utilisé par le navigateur. Les téléchargements ne s'exécutent pas en parallèle, mais les uns après les autres.
+Ajoute un bouton pour télécharger les émissions (podcasts) de France Culture. Les fichiers sont téléchargés au format MP3 dans le dossier "Téléchargements".
 
 !["Bouton télécharger"](./imgs/readme/bouton-telecharger-france-culture.png)
+
+## Informations complémentaires
+Les téléchargements sont lancés les uns après les autres plutôt qu'en parallèle.
 
 # Installer
 ### Firefox

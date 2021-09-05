@@ -19,3 +19,5 @@
 
 # Todo
 - Appliquer les tags (ID3v2) sur le fichier mp3 pour qu'il soit classé correctement.
+- Permettre de choisir le dossier dans lequel enregistrer.
+- Afficher une notification lorsqu'un télécharement est "enregistré", "démarré", "terminé" ou "en erreur".
